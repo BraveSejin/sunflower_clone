@@ -1,4 +1,6 @@
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sejin.example.sunflower_clone.adapters.UnsplashApi
 import com.sejin.example.sunflower_clone.data.UnsplashSearchResponse
@@ -8,7 +10,9 @@ import retrofit2.Response
 
 class GalleryViewModel : ViewModel() {
 
-    lateinit var photos: MutableList<UnsplashPhoto>
+    private val _photos = MutableLiveData<List<UnsplashPhoto>>()
+
+    val photos: LiveData<List<UnsplashPhoto>> = _photos
 
     init {
         getPhotos()
@@ -26,7 +30,7 @@ class GalleryViewModel : ViewModel() {
                 response: Response<UnsplashSearchResponse>
             ) {
                 Log.i("TTAAGG", "onResponse: ${response.body()}")
-                photos = response.body()?.results?.toMutableList()!!
+                _photos.value = response.body()?.results?.toMutableList()!!
             }
 
             override fun onFailure(call: Call<UnsplashSearchResponse>, t: Throwable) {

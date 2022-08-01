@@ -31,14 +31,9 @@ class GalleryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(GalleryViewModel::class.java)
-        showToastDelayed()
 
-    }
-
-    private fun showToastDelayed() {
-        Handler().postDelayed({
-            Toast.makeText(requireContext(), "${viewModel.photos.size}", Toast.LENGTH_SHORT).show()
-        }, 3000)
-
+        viewModel.photos.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "${it.size}개 받았습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 }
