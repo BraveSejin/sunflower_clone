@@ -16,13 +16,13 @@ class GalleryViewModel : ViewModel() {
 
     val photos: LiveData<List<UnsplashPhoto>> = _photos
 
-    init {
-        getPhotos()
-    }
+//    init {
+//        getPhotos()
+//    }
 
-    private fun getPhotos() {
+    fun getPhotos(query: String) {
         viewModelScope.launch {
-            val res = UnsplashApi.retrofitService.searchPhotosCouroutine("apple",1,10)
+            val res = UnsplashApi.retrofitService.searchPhotosCouroutine(query,1,10)
             _photos.value = res.results.toList()
         }
 
