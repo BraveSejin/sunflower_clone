@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.sejin.example.sunflower_clone.adapters.PlantAdapter
+import com.sejin.example.sunflower_clone.data.plantsList
 import com.sejin.example.sunflower_clone.databinding.FragmentPlantingListBinding
 
 class PlantListFragment : Fragment() {
@@ -18,19 +20,14 @@ class PlantListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlantingListBinding.inflate(inflater, container, false)
+        val adapter = PlantAdapter()
+        adapter.submitList(plantsList)
+        binding.plantList.adapter = adapter
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnListToDetail.setOnClickListener {
-            navigateToPlant()
-        }
     }
 
-    private fun navigateToPlant() {
-        val direction =
-            HomeViewPagerFragmentDirections.actionHomeViewPagerFragmentToPlantDetailFragment()
-        findNavController().navigate(direction)
-    }
 }
